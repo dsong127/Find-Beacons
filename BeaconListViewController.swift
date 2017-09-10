@@ -97,11 +97,28 @@ extension BeaconListViewController: CLLocationManagerDelegate{
         print("Location manager error: \(error.localizedDescription)")
     }
     
-    /*
+    
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-        <#code#>
+        // Find the same beacons in the table.
+        var indexPaths = [IndexPath]()
+        for beacon in beacons {
+            for row in 0..<items.count {
+                if items[row] == beacon {
+                    items[row].beacon = beacon
+                    indexPaths += [IndexPath(row: row, section: 0)]
+                }
+            }
+        }
+        
+        // Update beacon locations of visible rows.
+        if let visibleRows = beaconTableView.indexPathsForVisibleRows {
+            let rowsToUpdate = visibleRows.filter { indexPaths.contains($0) }
+            for row in rowsToUpdate {
+                let cell = beaconTableView.cellForRow(at: row) as! ItemCell
+                cell.refreshLocation()
+            }
+        }
     }
-    */
 }
 
 // MARK: - TableView Data Source
@@ -113,8 +130,9 @@ extension BeaconListViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath)
-        cell.textLabel?.text = items[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
+        //cell.textLabel?.text = items[indexPath.row].name
+        cell.item = items[indexPath.row]
     
         return cell
     }
