@@ -1,15 +1,15 @@
 import UIKit
 import Eureka
 
-protocol AddBeacon {
-    func addBeacon(beacon: Beacon)
+protocol AddItem {
+    func addItem(item: Item)
 }
 
 class AddBeaconViewController: FormViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    var delegate: AddBeacon?
+    var delegate: AddItem?
     let allIcons = Icon.allIcons
     var icon = Icon.customItem
     
@@ -52,7 +52,6 @@ class AddBeaconViewController: FormViewController {
                     self.addButton.isEnabled = (isNameValid && isUuidValid)
                 }
         
-            
             // CHECK INPUT FOR MAJOR & MINOR
             
             <<< IntRow(){ majorRow in
@@ -105,11 +104,11 @@ class AddBeaconViewController: FormViewController {
         
         let major = (form.rowBy(tag: "majorRow") as? IntRow)?.value ?? 0
         let minor = (form.rowBy(tag: "minorRow") as? IntRow)?.value ?? 0
+
+        //Create a new beacon object
+        let newItem = Item(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor)
         
-        let newBeacon = Beacon(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor)
-        
-        delegate?.addBeacon(beacon: newBeacon)
-        
+        delegate?.addItem(item: newItem)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -119,7 +118,7 @@ extension AddBeaconViewController: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let uuidTextField: UITextField = (form.rowBy(tag: "uuidRow") as? TextRow)!.cell.textField
         
-        // Automatically inserts a hyphen in text field
+        // Automatically inserts hyphens in text field
         if textField == uuidTextField {
             if range.location == 36 {
                 return false

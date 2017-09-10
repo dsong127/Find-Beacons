@@ -1,14 +1,14 @@
 import UIKit
 import CoreLocation
 
-let savedBeaconsKey: String = "savedBeacons"
+let savedItemsKey: String = "savedItems"
 
 class BeaconListViewController: UIViewController {
 
     @IBOutlet weak var beaconTableView: UITableView!
     
     //Array to hold data for the beacon list tableview
-    var beacons = [Beacon]()
+    var items = [Item]()
     
     let locationManager = CLLocationManager()
     
@@ -17,7 +17,7 @@ class BeaconListViewController: UIViewController {
         
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
-        loadBeacons()
+        loadItems()
         setupTableView()
 
     }
@@ -27,38 +27,38 @@ class BeaconListViewController: UIViewController {
         beaconTableView.dataSource = self
     }
     
-    func loadBeacons() {
-        guard let savedBeacons = UserDefaults.standard.array(forKey: savedBeaconsKey) as? [Data] else { return }
+    func loadItems() {
+        guard let savedItems = UserDefaults.standard.array(forKey: savedItemsKey) as? [Data] else { return }
         
-        for beaconData in savedBeacons {
-            guard let beacon = NSKeyedUnarchiver.unarchiveObject(with: beaconData) as? Beacon else { continue}
+        for itemData in savedItems {
+            guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue}
             
-            beacons.append(beacon)
+            items.append(item)
             
-            startMonitoring(beacon: beacon)
+            startMonitoring(item: item)
         }
     }
     
-    func saveBeacons() {
-        var beaconsData = [Data]()
+    func saveItems() {
+        var itemsData = [Data]()
         
-        for beacon in beacons {
-            let beaconData = NSKeyedArchiver.archivedData(withRootObject: beacon)
-            beaconsData.append(beaconData)
+        for item in items {
+            let itemData = NSKeyedArchiver.archivedData(withRootObject: item)
+            itemsData.append(itemData)
         }
         
-        UserDefaults.standard.set(beaconsData, forKey: savedBeaconsKey)
+        UserDefaults.standard.set(itemsData, forKey: savedItemsKey)
         UserDefaults.standard.synchronize()
     }
     
-    func startMonitoring(beacon: Beacon) {
-        let region = beacon.asBeaconRegion()
+    func startMonitoring(item: Item) {
+        let region = item.asBeaconRegion()
         locationManager.startMonitoring(for: region)
         locationManager.startRangingBeacons(in: region)
     }
     
-    func stopMonitoring(beacon: Beacon) {
-        let region = beacon.asBeaconRegion()
+    func stopMonitoring(item: Item) {
+        let region = item.asBeaconRegion()
         locationManager.stopMonitoring(for: region)
         locationManager.stopRangingBeacons(in: region)
     }
@@ -73,17 +73,17 @@ class BeaconListViewController: UIViewController {
     }
 }
 
-extension BeaconListViewController: AddBeacon {
-    func addBeacon(beacon: Beacon) {
-        beacons.append(beacon)
+extension BeaconListViewController: AddItem {
+    func addItem(item: Item) {
+        items.append(item)
         
         beaconTableView.beginUpdates()
-        let newIndexPath = IndexPath(row: beacons.count - 1, section: 0)
+        let newIndexPath = IndexPath(row: items.count - 1, section: 0)
         beaconTableView.insertRows(at: [newIndexPath], with: .automatic)
         beaconTableView.endUpdates()
         
-        startMonitoring(beacon: beacon)
-        saveBeacons()
+        startMonitoring(item: item)
+        saveItems()
     }
 }
 
@@ -97,6 +97,11 @@ extension BeaconListViewController: CLLocationManagerDelegate{
         print("Location manager error: \(error.localizedDescription)")
     }
     
+    /*
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        <#code#>
+    }
+    */
 }
 
 // MARK: - TableView Data Source
@@ -104,12 +109,12 @@ extension BeaconListViewController: CLLocationManagerDelegate{
 extension BeaconListViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return beacons.count
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath)
-        cell.textLabel?.text = beacons[indexPath.row].name
+        cell.textLabel?.text = items[indexPath.row].name
     
         return cell
     }
@@ -121,14 +126,14 @@ extension BeaconListViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            stopMonitoring(beacon: beacons[indexPath.row])
+            stopMonitoring(item: items[indexPath.row])
 
             beaconTableView.beginUpdates()
-            beacons.remove(at: indexPath.row)
+            items.remove(at: indexPath.row)
             beaconTableView.deleteRows(at: [indexPath], with: .automatic)
             beaconTableView.endUpdates()
             
-            saveBeacons()
+            saveItems()
         }
     }
 }
@@ -140,8 +145,8 @@ extension BeaconListViewController: UITableViewDelegate{
     
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let beacon = beacons[indexPath.row]
-        let detailMessage = "UUID: \(beacon.uuid.uuidString)\nMajor: \(beacon.majorValue)\nMinor: \(beacon.minorValue)"
+        let item = items[indexPath.row]
+        let detailMessage = "UUID: \(item.uuid.uuidString)\nMajor: \(item.majorValue)\nMinor: \(item.minorValue)"
         let detailAlert = UIAlertController(title: "details", message: detailMessage, preferredStyle: .alert)
         
         detailAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

@@ -9,7 +9,7 @@ struct ItemConstant {
     static let minorKey = "minor"
 }
 
-class Beacon: NSObject, NSCoding {
+class Item: NSObject, NSCoding {
     let name: String
     let icon: Int
     let uuid: UUID
