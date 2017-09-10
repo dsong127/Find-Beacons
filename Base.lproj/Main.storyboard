@@ -23,7 +23,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Add a new beacon" id="y18-An-cwf">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Add" id="5kH-16-ip6"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Add" id="5kH-16-ip6">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="BYZ-38-t0r" id="E5e-2F-EnU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="5kH-16-ip6" id="j0V-pr-scM"/>

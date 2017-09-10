@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 struct ItemConstant {
     static let nameKey = "name"
@@ -12,15 +13,19 @@ class Beacon: NSObject, NSCoding {
     let name: String
     let icon: Int
     let uuid: UUID
-    let majorValue: UInt16
-    let minorValue: UInt16
+    let minorValue: CLBeaconMinorValue
+    let majorValue: CLBeaconMajorValue
     
     init(name: String, icon: Int, uuid: UUID, majorValue: Int, minorValue: Int) {
         self.name = name
         self.icon = icon
         self.uuid = uuid
-        self.majorValue = UInt16(majorValue)
-        self.minorValue = UInt16(minorValue)
+        self.minorValue = CLBeaconMinorValue(minorValue)
+        self.majorValue = CLBeaconMajorValue(majorValue)
+    }
+    
+    func asBeaconRegion() -> CLBeaconRegion {
+        return CLBeaconRegion(proximityUUID: uuid, major: majorValue, minor: minorValue, identifier: name)
     }
     
     // MARK: NSCoding
