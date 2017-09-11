@@ -9,8 +9,11 @@ class BeaconListViewController: UIViewController {
     
     //Array to hold data for the beacon list tableview
     var items = [Item]()
+    var index: IndexPath!
     
     let locationManager = CLLocationManager()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +22,6 @@ class BeaconListViewController: UIViewController {
         locationManager.delegate = self
         loadItems()
         setupTableView()
-
     }
     
     func setupTableView() {
@@ -34,7 +36,6 @@ class BeaconListViewController: UIViewController {
             guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue}
             
             items.append(item)
-            
             startMonitoring(item: item)
         }
     }
@@ -69,6 +70,12 @@ class BeaconListViewController: UIViewController {
             
             let addVC = segue.destination as? AddBeaconViewController
             addVC?.delegate = self
+        }
+        
+        if segue.identifier == "DetailsSegue" {
+            
+            let detailsVC = segue.destination as? DetailsViewController
+            detailsVC?.item = self.items[index.row]
         }
     }
 }
@@ -131,7 +138,7 @@ extension BeaconListViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
-        //cell.textLabel?.text = items[indexPath.row].name
+        
         cell.item = items[indexPath.row]
     
         return cell
@@ -162,7 +169,7 @@ extension BeaconListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        /*
         let item = items[indexPath.row]
         let detailMessage = "UUID: \(item.uuid.uuidString)\nMajor: \(item.majorValue)\nMinor: \(item.minorValue)"
         let detailAlert = UIAlertController(title: "details", message: detailMessage, preferredStyle: .alert)
@@ -170,7 +177,8 @@ extension BeaconListViewController: UITableViewDelegate{
         detailAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         self.present(detailAlert, animated: true, completion: nil)
-
-        //performSegue(withIdentifier: "BeaconInfoSegue", sender: nil)
+*/
+        self.index = indexPath
+        performSegue(withIdentifier: "DetailsSegue", sender: nil)
     }
 }
