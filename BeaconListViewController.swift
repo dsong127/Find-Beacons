@@ -13,7 +13,16 @@ class BeaconListViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        //This will display a message when user has added no item to track
+        if (isDataEmpty(data: items)){
+            displayEmptyData(message: "There are no item to show!", on: self)
+        } else {
+            beaconTableView.backgroundView = nil
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,6 +166,10 @@ extension BeaconListViewController: UITableViewDataSource{
             items.remove(at: indexPath.row)
             beaconTableView.deleteRows(at: [indexPath], with: .automatic)
             beaconTableView.endUpdates()
+            
+            if(isDataEmpty(data: items)){
+                displayEmptyData(message: "There are no item to show!", on: self)
+            }
             
             saveItems()
         }
