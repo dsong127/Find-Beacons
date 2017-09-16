@@ -5,6 +5,7 @@ class DetailsViewController: FormViewController {
 
     var item: Item!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +36,6 @@ class DetailsViewController: FormViewController {
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
             
-            
             // CHECK INPUT FOR MAJOR & MINOR
             +++ Section("Major"){
                 $0.header?.height = { 15 }
@@ -56,9 +56,5 @@ class DetailsViewController: FormViewController {
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
-
-        
     }
-    
-
 }

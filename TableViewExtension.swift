@@ -11,12 +11,9 @@ extension BeaconListViewController {
         messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
         messageLabel.sizeToFit()
         
-        
         self.beaconTableView.backgroundView = messageLabel
         self.beaconTableView.separatorStyle = .none
     }
-    
-    
     
     func isDataEmpty(data: [Item]) -> Bool {
         if data.isEmpty {
