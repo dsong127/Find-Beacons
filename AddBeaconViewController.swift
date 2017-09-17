@@ -31,6 +31,8 @@ class AddBeaconViewController: FormViewController {
                 nameRow.title = "Name"
                 nameRow.placeholder = "My Beacon"
                 nameRow.tag = "nameRow"
+                nameRow.cell.textField.autocorrectionType = .no
+
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                     //cell.textField.delegate = self
@@ -43,6 +45,8 @@ class AddBeaconViewController: FormViewController {
                 uuid.title = "UUID"
                 uuid.placeholder = "12345678-12ab-34cd-56ef-123456789abc"
                 uuid.tag = "uuidRow"
+                uuid.cell.textField.autocapitalizationType = .allCharacters
+                uuid.cell.textField.autocorrectionType = .no
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                     cell.textField.delegate = self
@@ -54,18 +58,20 @@ class AddBeaconViewController: FormViewController {
         
             // CHECK INPUT FOR MAJOR & MINOR
             
-            <<< IntRow(){ majorRow in
+            <<< TextRow(){ majorRow in
                 majorRow.title = "Major"
                 majorRow.placeholder = "12345"
                 majorRow.tag = "majorRow"
+                majorRow.cell.textField.keyboardType = .numberPad
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
         
-            <<< IntRow(){ minorRow in
+            <<< TextRow(){ minorRow in
                 minorRow.title = "Minor"
                 minorRow.placeholder = "12345"
                 minorRow.tag = "minorRow"
+                minorRow.cell.textField.keyboardType = .numberPad
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
@@ -102,8 +108,8 @@ class AddBeaconViewController: FormViewController {
             return
         }
         
-        let major = (form.rowBy(tag: "majorRow") as? IntRow)?.value ?? 0
-        let minor = (form.rowBy(tag: "minorRow") as? IntRow)?.value ?? 0
+        let major = Int((form.rowBy(tag: "majorRow") as? TextRow)?.value ?? "0")!
+        let minor = Int((form.rowBy(tag: "minorRow") as? TextRow)?.value ?? "0")!
 
         //Create a new beacon object
         let newItem = Item(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor)

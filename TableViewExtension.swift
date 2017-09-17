@@ -14,12 +14,4 @@ extension BeaconListViewController {
         self.beaconTableView.backgroundView = messageLabel
         self.beaconTableView.separatorStyle = .none
     }
-    
-    func isDataEmpty(data: [Item]) -> Bool {
-        if data.isEmpty {
-            return true
-        } else {
-            return false
-        }
-    }
 }

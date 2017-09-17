@@ -17,7 +17,7 @@ class BeaconListViewController: UIViewController {
         super.viewWillAppear(true)
         
         //This will display a message when user has added no item to track
-        if (items.count == 0){
+        if items.isEmpty {
             displayEmptyData(message: "There are no item to show!", on: self)
         } else {
             beaconTableView.backgroundView = nil
@@ -27,8 +27,9 @@ class BeaconListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        
         loadItems()
         setupTableView()
     }
@@ -64,7 +65,6 @@ class BeaconListViewController: UIViewController {
     func startMonitoring(item: Item) {
         let region = item.asBeaconRegion()
         locationManager.startMonitoring(for: region)
-        //locationManager.startMonitoringSignificantLocationChanges()
         locationManager.startRangingBeacons(in: region)
     }
     
@@ -77,13 +77,11 @@ class BeaconListViewController: UIViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddBeaconSegue" {
-            
             let addVC = segue.destination as? AddBeaconViewController
             addVC?.delegate = self
         }
         
         if segue.identifier == "DetailsSegue" {
-            
             let detailsVC = segue.destination as? DetailsViewController
             detailsVC?.item = self.items[index.row]
         }
@@ -108,12 +106,12 @@ extension BeaconListViewController: CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         print("monitoring region error: \(error.localizedDescription)")
+        print(error)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager error: \(error.localizedDescription)")
     }
-    
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         // Find the same beacons in the table.
@@ -148,7 +146,6 @@ extension BeaconListViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
-        
         cell.item = items[indexPath.row]
     
         return cell
@@ -168,7 +165,7 @@ extension BeaconListViewController: UITableViewDataSource{
             beaconTableView.deleteRows(at: [indexPath], with: .automatic)
             beaconTableView.endUpdates()
             
-            if(items.count == 0){
+            if items.isEmpty {
                 displayEmptyData(message: "There are no item to show!", on: self)
             }
             
