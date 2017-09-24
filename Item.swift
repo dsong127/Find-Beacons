@@ -30,7 +30,7 @@ class Item: NSObject, NSCoding {
     }
     
     func locationString() -> String {
-        guard let beacon = beacon else { return "Location: Unknown" }
+        guard let beacon = beacon else { return "Cannot find beacon" }
         let proximity = nameForProximity(beacon.proximity)
         let accuracy = String(format: "%.2f", beacon.accuracy)
             

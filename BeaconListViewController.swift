@@ -15,7 +15,7 @@ class BeaconListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+
         //This will display a message when user has added no item to track
         if items.isEmpty {
             displayEmptyData(message: "There are no item to show!", on: self)
@@ -29,14 +29,16 @@ class BeaconListViewController: UIViewController {
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
+
         loadItems()
         setupTableView()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         beaconTableView.delegate = self
         beaconTableView.dataSource = self
+
+        beaconTableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
     }
     
     func loadItems() {
@@ -85,6 +87,7 @@ class BeaconListViewController: UIViewController {
             let detailsVC = segue.destination as? DetailsViewController
             detailsVC?.item = self.items[index.row]
         }
+ 
     }
 }
 
@@ -191,5 +194,7 @@ extension BeaconListViewController: UITableViewDelegate{
 */
         self.index = indexPath
         performSegue(withIdentifier: "DetailsSegue", sender: nil)
+ 
+       
     }
 }

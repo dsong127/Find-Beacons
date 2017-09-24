@@ -25,8 +25,10 @@ class AddBeaconViewController: FormViewController {
         
         var isNameValid: Bool = false
         var isUuidValid: Bool = false
+        var isMajorValid: Bool = false
+        var isMinorValid: Bool = false
         
-        form +++ Section("Section 1")
+        form +++ Section()
             <<< TextRow(){ nameRow in
                 nameRow.title = "Name"
                 nameRow.placeholder = "My Beacon"
@@ -37,8 +39,8 @@ class AddBeaconViewController: FormViewController {
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                     //cell.textField.delegate = self
                 }.onChange{ nameRow in
-                    isNameValid = self.checkNameIsValid(name: (nameRow.value ?? ""))
-                    self.addButton.isEnabled = (isNameValid && isUuidValid)
+                    isNameValid = self.checkNotEmpty(name: (nameRow.value ?? ""))
+                    self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
             }
             
             <<< TextRow(){ uuid in
@@ -49,14 +51,11 @@ class AddBeaconViewController: FormViewController {
                 uuid.cell.textField.autocorrectionType = .no
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
-                    cell.textField.delegate = self
                 }.onChange{ uuid in
                     isUuidValid = self.checkUUIDValid(UUID: (uuid.value ?? ""))
                     uuid.cell.textField.textColor = (isUuidValid) ? .black : .red
-                    self.addButton.isEnabled = (isNameValid && isUuidValid)
+                    self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
                 }
-        
-            // CHECK INPUT FOR MAJOR & MINOR
             
             <<< TextRow(){ majorRow in
                 majorRow.title = "Major"
@@ -65,6 +64,9 @@ class AddBeaconViewController: FormViewController {
                 majorRow.cell.textField.keyboardType = .numberPad
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
+                }.onChange{ major in
+                    isMajorValid = self.checkNotEmpty(name: major.value ?? "")
+                    self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
                 }
         
             <<< TextRow(){ minorRow in
@@ -74,10 +76,22 @@ class AddBeaconViewController: FormViewController {
                 minorRow.cell.textField.keyboardType = .numberPad
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
+                }.onChange{ minor in
+                    isMinorValid = self.checkNotEmpty(name: minor.value ?? "")
+                    self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
                 }
+        
+        
+        //Set textfield delegate to self
+        let rows = (form.allRows as! [TextRow])
+        for row in rows {
+            row.cellUpdate{ cell, row in
+                row.cell.textField.delegate = self
+            }
+        }
     }
-    
-    func checkNameIsValid(name: String) -> Bool {
+
+    func checkNotEmpty(name: String) -> Bool {
         return (name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).characters.count) > 0
     }
     
@@ -93,6 +107,7 @@ class AddBeaconViewController: FormViewController {
         
         return false
     }
+    
     
     // Remove Eureka toolbar
     override func inputAccessoryView(for row: BaseRow) -> UIView? {
@@ -122,43 +137,52 @@ class AddBeaconViewController: FormViewController {
 extension AddBeaconViewController: UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+        let majorTextField: UITextField = (form.rowBy(tag: "majorRow") as? TextRow)!.cell.textField
+        let minorTextField: UITextField = (form.rowBy(tag: "minorRow") as? TextRow)!.cell.textField
         let uuidTextField: UITextField = (form.rowBy(tag: "uuidRow") as? TextRow)!.cell.textField
         
-        // Automatically inserts hyphens in text field
+        
+        if (textField == majorTextField || textField == minorTextField) {
+            guard let text = textField.text else {
+                return true
+            }
+            let newLength = text.characters.count + string.characters.count - range.length
+            return newLength <= 5
+        }
+        
+    
         if textField == uuidTextField {
+        /*
             if range.location == 36 {
                 return false
             }
-            
+         
             var strText: String? = textField.text
-            
+         
             if strText == nil {
                 strText = ""
             }
-        
+         
             // NEED TO DELETE - IF USER GOING BACKWARDS
             strText = strText?.replacingOccurrences(of: "-", with:"")
             if strText!.characters.count > 1  && string != ""
                 && (strText!.characters.count == 8 || strText!.characters.count == 12
                     || strText!.characters.count == 16 || strText!.characters.count == 20
-                        || strText!.characters.count == 32) {
-              
+                    || strText!.characters.count == 32) {
+         
                 textField.text = "\(textField.text!)-\(string)"
                 return false
             }
-            // Limit to 36 characters, including the hyphens
-            guard let text = textField.text else { return true }
-            let newLength = text.characters.count + string.characters.count - range.length
-            return newLength <= 36
-        }
-        
-        //MARK:- TODO
-        //if textField == (majorTextField || minorTextField) {
-                // MAKE SURE doesnt exceed UINT
-        //}
-        
+         */
+         // Limit to 36 characters, including the hyphens
+         guard let text = textField.text else { return true }
+         let newLength = text.characters.count + string.characters.count - range.length
+         return newLength <= 36
+         }
+
         return true
     }
 }
-    
+
 
