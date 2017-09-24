@@ -108,7 +108,6 @@ class AddBeaconViewController: FormViewController {
         return false
     }
     
-    
     // Remove Eureka toolbar
     override func inputAccessoryView(for row: BaseRow) -> UIView? {
         return nil
@@ -125,9 +124,11 @@ class AddBeaconViewController: FormViewController {
         
         let major = Int((form.rowBy(tag: "majorRow") as? TextRow)?.value ?? "0")!
         let minor = Int((form.rowBy(tag: "minorRow") as? TextRow)?.value ?? "0")!
+        
+        let enabled = true
 
         //Create a new beacon object
-        let newItem = Item(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor)
+        let newItem = Item(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor, enabled: enabled)
         
         delegate?.addItem(item: newItem)
         navigationController?.popViewController(animated: true)

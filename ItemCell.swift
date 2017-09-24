@@ -12,7 +12,6 @@ class ItemCell: UITableViewCell {
         didSet {
             if let item = item {
                 //imgIcon.image = Icon(rawValue: item.icon)?.image()
-                
                 //imgIcon.layer.cornerRadius = 10
                 //imgIcon.layer.masksToBounds = true
                 lblName.font = .italicSystemFont(ofSize: 16.0)
@@ -26,13 +25,13 @@ class ItemCell: UITableViewCell {
             }
         }
     }
-    /*
+    
     override func awakeFromNib() {
-        cellView.layer.cornerRadius = 10
+        cellView.layer.cornerRadius = 3
         cellView.layer.masksToBounds = true
         super.awakeFromNib()
     }
-    */
+    
     
     func refreshLocation() {
         lblLocation.text = item?.locationString() ?? ""

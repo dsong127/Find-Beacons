@@ -7,6 +7,7 @@ struct ItemConstant {
     static let uuidKey = "uuid"
     static let majorKey = "major"
     static let minorKey = "minor"
+    static let enabled = "enabled"
 }
 
 class Item: NSObject, NSCoding {
@@ -15,14 +16,16 @@ class Item: NSObject, NSCoding {
     let uuid: UUID
     let minorValue: CLBeaconMinorValue
     let majorValue: CLBeaconMajorValue
+    let enabled: Bool
     var beacon: CLBeacon?
     
-    init(name: String, icon: Int, uuid: UUID, majorValue: Int, minorValue: Int) {
+    init(name: String, icon: Int, uuid: UUID, majorValue: Int, minorValue: Int, enabled: Bool) {
         self.name = name
         self.icon = icon
         self.uuid = uuid
         self.minorValue = CLBeaconMinorValue(minorValue)
         self.majorValue = CLBeaconMajorValue(majorValue)
+        self.enabled = enabled
     }
     
     func asBeaconRegion() -> CLBeaconRegion {
@@ -67,6 +70,9 @@ class Item: NSObject, NSCoding {
         icon = aDecoder.decodeInteger(forKey: ItemConstant.iconKey)
         majorValue = UInt16(aDecoder.decodeInteger(forKey: ItemConstant.majorKey))
         minorValue = UInt16(aDecoder.decodeInteger(forKey: ItemConstant.minorKey))
+        
+        let aEnabled = aDecoder.decodeObject(forKey: ItemConstant.enabled) as? Bool
+        enabled = aEnabled ?? false
     }
     
     func encode(with aCoder: NSCoder) {
@@ -75,6 +81,7 @@ class Item: NSObject, NSCoding {
         aCoder.encode(uuid, forKey: ItemConstant.uuidKey)
         aCoder.encode(Int(majorValue), forKey: ItemConstant.majorKey)
         aCoder.encode(Int(minorValue), forKey: ItemConstant.minorKey)
+        aCoder.encode(enabled, forKey: ItemConstant.enabled)
     }
 }
 

@@ -15,7 +15,7 @@ class DetailsViewController: FormViewController {
     func configForm() {
         
         form
-            +++ Section("Name"){
+            +++ Section(){
                 $0.header?.height = { 50 }
             }
             <<< LabelRow(){ nameRow in
@@ -56,5 +56,13 @@ class DetailsViewController: FormViewController {
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
+        
+            +++ Section() {
+                $0.header?.height = { 50 }
+            }
+            <<< SwitchRow("switchRow"){
+                $0.title = "Tracking"
+            }
+            
     }
 }
