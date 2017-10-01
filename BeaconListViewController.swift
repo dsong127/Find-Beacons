@@ -22,6 +22,8 @@ class BeaconListViewController: UIViewController {
         } else {
             beaconTableView.backgroundView = nil
         }
+        
+        saveItems()
     }
     
     override func viewDidLoad() {
@@ -37,7 +39,6 @@ class BeaconListViewController: UIViewController {
     private func setupTableView() {
         beaconTableView.delegate = self
         beaconTableView.dataSource = self
-
         beaconTableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
     }
     
@@ -45,9 +46,9 @@ class BeaconListViewController: UIViewController {
         guard let savedItems = UserDefaults.standard.array(forKey: savedItemsKey) as? [Data] else { return }
         
         for itemData in savedItems {
-            guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue}
-            
+            guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue }
             items.append(item)
+            
             startMonitoring(item: item)
         }
     }
@@ -85,16 +86,16 @@ class BeaconListViewController: UIViewController {
         
         if segue.identifier == "DetailsSegue" {
             let detailsVC = segue.destination as? DetailsViewController
+            detailsVC?.delegate = self
             detailsVC?.item = self.items[index.row]
+            detailsVC?.index = self.index
         }
- 
     }
 }
 
 extension BeaconListViewController: AddItem {
     func addItem(item: Item) {
         items.append(item)
-        
         beaconTableView.beginUpdates()
         let newIndexPath = IndexPath(row: items.count - 1, section: 0)
         beaconTableView.insertRows(at: [newIndexPath], with: .automatic)
@@ -139,9 +140,16 @@ extension BeaconListViewController: CLLocationManagerDelegate{
     }
 }
 
+extension BeaconListViewController: detailsViewDelegate {
+    func didChangeEnabled() {
+        saveItems()
+        beaconTableView.reloadData()
+    }
+}
+
 // MARK: - TableView Data Source
 
-extension BeaconListViewController: UITableViewDataSource{
+extension BeaconListViewController: UITableViewDataSource  {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -150,6 +158,12 @@ extension BeaconListViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
         cell.item = items[indexPath.row]
+        
+        if cell.item?.enabled == false {
+            cell.disableCellColor()
+        } else {
+            cell.enableCellColor()
+        }
     
         return cell
     }
@@ -171,7 +185,6 @@ extension BeaconListViewController: UITableViewDataSource{
             if items.isEmpty {
                 displayEmptyData(message: "There are no item to show!", on: self)
             }
-            
             saveItems()
         }
     }
@@ -181,6 +194,7 @@ extension BeaconListViewController: UITableViewDataSource{
 extension BeaconListViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
     
         tableView.deselectRow(at: indexPath, animated: true)
         /*
@@ -194,7 +208,5 @@ extension BeaconListViewController: UITableViewDelegate{
 */
         self.index = indexPath
         performSegue(withIdentifier: "DetailsSegue", sender: nil)
- 
-       
     }
 }

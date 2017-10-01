@@ -1,0 +1,9 @@
+import Foundation
+
+
+struct segueInfo {
+    
+    
+    
+    
+}

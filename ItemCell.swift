@@ -32,6 +32,18 @@ class ItemCell: UITableViewCell {
         super.awakeFromNib()
     }
     
+    func disableCellColor() {
+        cellView.backgroundColor = UIColor.groupTableViewBackground
+        lblName.alpha = 0.5
+        lblLocation.alpha = 0.5
+    }
+    
+    func enableCellColor() {
+        cellView.backgroundColor = .white
+        lblName.alpha = 1.0
+        lblLocation.alpha = 1.0
+    }
+    
     
     func refreshLocation() {
         lblLocation.text = item?.locationString() ?? ""

@@ -1,14 +1,23 @@
 import UIKit
 import Eureka
 
+protocol detailsViewDelegate {
+    func didChangeEnabled()
+}
+
 class DetailsViewController: FormViewController {
 
     var item: Item!
+    var delegate: detailsViewDelegate?
+    var index: IndexPath!
+
     
+    var enabledInfo: Bool = false
+    var didChange: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.delegate = self
         configForm()
     }
     
@@ -62,7 +71,21 @@ class DetailsViewController: FormViewController {
             }
             <<< SwitchRow("switchRow"){
                 $0.title = "Tracking"
-            }
-            
+                $0.value = item.enabled
+                }.onChange{
+                    self.enabledInfo = $0.value!
+                    self.didChange = true
+                }
     }
+}
+
+extension DetailsViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if didChange {
+            (viewController as? BeaconListViewController)?.items[index.row].enabled = enabledInfo
+            delegate?.didChangeEnabled()
+        }
+
+    }
+    
 }

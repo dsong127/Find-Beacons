@@ -22,32 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("clmanager delegate is called")
-        guard region is CLBeaconRegion else {
-            print("shout out to Chanel")
-            return
-        }
-        print("made it past da guard")
+        guard region is CLBeaconRegion else { return }
         
         let content = UNMutableNotificationContent()
         content.title = "title"
-        content.body = "YOU FORGOT SOMETHING BITCH"
+        content.body = "forgot something"
         content.sound = .default()
         
         let request = UNNotificationRequest(identifier: "doko", content: content, trigger: nil)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
-    
-    /*
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Entered!")
-        guard region is CLBeaconRegion else {
-            print("why Chanel")
-            return
-        }
-        
-        print("issa beacon region")
-    }*/
-
 }

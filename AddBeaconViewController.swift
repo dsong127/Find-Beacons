@@ -1,10 +1,6 @@
 import UIKit
 import Eureka
 
-protocol AddItem {
-    func addItem(item: Item)
-}
-
 class AddBeaconViewController: FormViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
@@ -13,11 +9,9 @@ class AddBeaconViewController: FormViewController {
     let allIcons = Icon.allIcons
     var icon = Icon.customItem
     
-    var isValid: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configForm()
     }
     
