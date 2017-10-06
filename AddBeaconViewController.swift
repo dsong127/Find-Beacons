@@ -1,6 +1,7 @@
 import UIKit
 import Eureka
 
+
 class AddBeaconViewController: FormViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
@@ -74,6 +75,22 @@ class AddBeaconViewController: FormViewController {
                     isMinorValid = self.checkNotEmpty(name: minor.value ?? "")
                     self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
                 }
+            /*
+        +++ Section("ViewRow Demo")
+            <<< ViewRow<MyView>("view") { (row) in
+                row.title = "My View Title" // optional
+                }
+                .cellSetup { (cell, row) in
+                    //  Construct the view for the cell
+                    cell.view = MyView()
+                    cell.view?.backgroundColor = UIColor.orange
+                    cell.contentView.addSubview(cell.view!)
+                    
+                    //  Define the cell's height
+                    cell.height = { return CGFloat(200) }
+        }
+        
+        */
         
         
         //Set textfield delegate to self
@@ -168,8 +185,8 @@ extension AddBeaconViewController: UITextFieldDelegate{
          
                 textField.text = "\(textField.text!)-\(string)"
                 return false
-            }
-         */
+            }*/
+ 
          // Limit to 36 characters, including the hyphens
          guard let text = textField.text else { return true }
          let newLength = text.characters.count + string.characters.count - range.length
@@ -178,6 +195,7 @@ extension AddBeaconViewController: UITextFieldDelegate{
 
         return true
     }
+ 
 }
 
 

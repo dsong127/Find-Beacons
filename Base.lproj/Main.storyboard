@@ -51,15 +51,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Beacon" id="0Jj-RN-PSD">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Dfs-ej-gcD"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Beacon" id="0Jj-RN-PSD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5v4-fq-8Aw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="895" y="752"/>
         </scene>
-        <!--Doko?-->
+        <!--Beacons-->
         <scene sceneID="CpU-Ef-kwj">
             <objects>
                 <viewController id="wAH-hS-4Bp" customClass="BeaconListViewController" customModule="Doko" customModuleProvider="target" sceneMemberID="viewController">
@@ -71,42 +69,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="111" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cuP-QU-XH6">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="92" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cuP-QU-XH6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Beacon" rowHeight="111" id="003-wp-rYc" customClass="ItemCell" customModule="Doko" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="111"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Beacon" rowHeight="92" id="003-wp-rYc" customClass="ItemCell" customModule="Doko" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="92"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="003-wp-rYc" id="ciu-gy-cMX">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="91.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r61-EP-hgv" customClass="ShadowView" customModule="Doko" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="8" width="359" height="95"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="95" id="KCh-FJ-DwI"/>
-                                                    </constraints>
-                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p6w-2c-Qz7">
-                                                    <rect key="frame" x="8" y="8" width="359" height="95"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="91.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eHX-gF-3Ff">
-                                                            <rect key="frame" x="68" y="17" width="144" height="21"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YpO-pr-rxb">
+                                                            <rect key="frame" x="21" y="14" width="60" height="67"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWN-KZ-JPH">
+                                                            <rect key="frame" x="89" y="60" width="172" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YpO-pr-rxb">
-                                                            <rect key="frame" x="8" y="4" width="60" height="67"/>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HE0-TC-GC7">
+                                                            <rect key="frame" x="0.0" y="0.0" width="13" height="91"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWN-KZ-JPH">
-                                                            <rect key="frame" x="68" y="50" width="281" height="21"/>
+                                                            <color key="backgroundColor" red="0.23018704349999999" green="0.77713233230000001" blue="0.31589496140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eHX-gF-3Ff">
+                                                            <rect key="frame" x="89" y="31" width="144" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -114,24 +109,20 @@
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="95" id="7sv-gj-Nfz"/>
-                                                    </constraints>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.94999999999999996" green="0.94999999999999996" blue="0.94999999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="p6w-2c-Qz7" secondAttribute="trailing" constant="8" id="2m3-yj-5YO"/>
-                                                <constraint firstItem="r61-EP-hgv" firstAttribute="leading" secondItem="ciu-gy-cMX" secondAttribute="leading" constant="8" id="C7h-rD-aDM"/>
-                                                <constraint firstAttribute="trailing" secondItem="r61-EP-hgv" secondAttribute="trailing" constant="8" id="Do4-9W-vAA"/>
-                                                <constraint firstItem="p6w-2c-Qz7" firstAttribute="top" secondItem="ciu-gy-cMX" secondAttribute="top" constant="8" identifier="ForegroundViewTop" id="PtC-HP-K4m"/>
-                                                <constraint firstItem="r61-EP-hgv" firstAttribute="top" secondItem="ciu-gy-cMX" secondAttribute="top" constant="8" id="TLz-eF-Y2v"/>
-                                                <constraint firstItem="p6w-2c-Qz7" firstAttribute="leading" secondItem="ciu-gy-cMX" secondAttribute="leading" constant="8" id="xCP-Ol-bDz"/>
+                                                <constraint firstItem="p6w-2c-Qz7" firstAttribute="top" secondItem="ciu-gy-cMX" secondAttribute="top" id="0bW-U0-rVC"/>
+                                                <constraint firstItem="p6w-2c-Qz7" firstAttribute="leading" secondItem="ciu-gy-cMX" secondAttribute="leading" id="1ad-XY-zOG"/>
+                                                <constraint firstAttribute="trailing" secondItem="p6w-2c-Qz7" secondAttribute="trailing" id="lbr-RJ-MOY"/>
+                                                <constraint firstAttribute="bottom" secondItem="p6w-2c-Qz7" secondAttribute="bottom" id="pvC-e5-60u"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="cellView" destination="p6w-2c-Qz7" id="KKp-7H-mC9"/>
-                                            <outlet property="imageView" destination="YpO-pr-rxb" id="qZp-fX-rsG"/>
+                                            <outlet property="beaconStatusView" destination="HE0-TC-GC7" id="LKa-r9-cP6"/>
+                                            <outlet property="cellView" destination="p6w-2c-Qz7" id="Oot-Gp-pqr"/>
+                                            <outlet property="imgIcon" destination="YpO-pr-rxb" id="ewe-bY-XSt"/>
                                             <outlet property="lblLocation" destination="RWN-KZ-JPH" id="PGU-ZH-KNI"/>
                                             <outlet property="lblName" destination="eHX-gF-3Ff" id="dVw-w4-mN7"/>
                                         </connections>
@@ -140,9 +131,9 @@
                             </tableView>
                         </subviews>
                     </view>
-                    <navigationItem key="navigationItem" title="Doko?" id="0pQ-dZ-Yqd">
+                    <navigationItem key="navigationItem" title="Beacons" id="0pQ-dZ-Yqd">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ySr-kE-v3f">
-                            <color key="tintColor" red="0.85262101888656616" green="0.42218321561813354" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="BYZ-38-t0r" kind="show" identifier="AddBeaconSegue" id="Zfm-hZ-xJc"/>
                             </connections>
@@ -162,11 +153,11 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cju-v0-HVw" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lvd-9A-yrI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="lvd-9A-yrI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.85262101889999997" green="0.42218321559999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.1334631741" green="0.1823148429" blue="0.25190103050000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.11506292820308781" green="0.44525693427626722" blue="0.90960985422134399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>

@@ -6,6 +6,7 @@ let savedItemsKey: String = "savedItems"
 class BeaconListViewController: UIViewController {
 
     @IBOutlet weak var beaconTableView: UITableView!
+    @IBOutlet weak var beaconStatusView: UIView!
     
     //Array to hold data for the beacon list tableview
     var items = [Item]()
@@ -15,14 +16,13 @@ class BeaconListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-
+        
         //This will display a message when user has added no item to track
         if items.isEmpty {
             displayEmptyData(message: "There are no item to show!", on: self)
         } else {
             beaconTableView.backgroundView = nil
         }
-        
         saveItems()
     }
     
@@ -39,7 +39,6 @@ class BeaconListViewController: UIViewController {
     private func setupTableView() {
         beaconTableView.delegate = self
         beaconTableView.dataSource = self
-        beaconTableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
     }
     
     func loadItems() {
@@ -48,7 +47,6 @@ class BeaconListViewController: UIViewController {
         for itemData in savedItems {
             guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue }
             items.append(item)
-            
             startMonitoring(item: item)
         }
     }
@@ -106,6 +104,24 @@ extension BeaconListViewController: AddItem {
     }
 }
 
+extension BeaconListViewController: detailsViewDelegate {
+    func didChangeEnabled(indexPath: IndexPath, tracking: Bool) {
+        saveItems()
+        let item = items[indexPath.row]
+        
+        //If item tracking is enabled start monitoring
+        //Otherwise stop
+        if item.enabled {
+            startMonitoring(item: item)
+        } else {
+            stopMonitoring(item: item)
+        }
+        
+        beaconTableView.reloadData()
+    }
+}
+
+
 extension BeaconListViewController: CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
@@ -140,13 +156,6 @@ extension BeaconListViewController: CLLocationManagerDelegate{
     }
 }
 
-extension BeaconListViewController: detailsViewDelegate {
-    func didChangeEnabled() {
-        saveItems()
-        beaconTableView.reloadData()
-    }
-}
-
 // MARK: - TableView Data Source
 
 extension BeaconListViewController: UITableViewDataSource  {
@@ -158,6 +167,7 @@ extension BeaconListViewController: UITableViewDataSource  {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
         cell.item = items[indexPath.row]
+  
         
         if cell.item?.enabled == false {
             cell.disableCellColor()
@@ -195,17 +205,8 @@ extension BeaconListViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-    
         tableView.deselectRow(at: indexPath, animated: true)
-        /*
-        let item = items[indexPath.row]
-        let detailMessage = "UUID: \(item.uuid.uuidString)\nMajor: \(item.majorValue)\nMinor: \(item.minorValue)"
-        let detailAlert = UIAlertController(title: "details", message: detailMessage, preferredStyle: .alert)
         
-        detailAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        self.present(detailAlert, animated: true, completion: nil)
-*/
         self.index = indexPath
         performSegue(withIdentifier: "DetailsSegue", sender: nil)
     }

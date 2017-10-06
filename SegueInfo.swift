@@ -1,9 +1,0 @@
-import Foundation
-
-
-struct segueInfo {
-    
-    
-    
-    
-}

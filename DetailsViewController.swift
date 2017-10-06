@@ -1,10 +1,6 @@
 import UIKit
 import Eureka
 
-protocol detailsViewDelegate {
-    func didChangeEnabled()
-}
-
 class DetailsViewController: FormViewController {
 
     var item: Item!
@@ -83,9 +79,7 @@ extension DetailsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if didChange {
             (viewController as? BeaconListViewController)?.items[index.row].enabled = enabledInfo
-            delegate?.didChangeEnabled()
+            delegate?.didChangeEnabled(indexPath: index, tracking: enabledInfo)
         }
-
     }
-    
 }

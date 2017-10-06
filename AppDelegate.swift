@@ -25,8 +25,8 @@ extension AppDelegate: CLLocationManagerDelegate{
         guard region is CLBeaconRegion else { return }
         
         let content = UNMutableNotificationContent()
-        content.title = "title"
-        content.body = "forgot something"
+        content.title = "Forgot something?"
+        content.body = region.identifier
         content.sound = .default()
         
         let request = UNNotificationRequest(identifier: "doko", content: content, trigger: nil)
