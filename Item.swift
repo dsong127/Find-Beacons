@@ -8,6 +8,7 @@ struct ItemConstant {
     static let majorKey = "major"
     static let minorKey = "minor"
     static let enabled = "enabled"
+    static let lastLocKey = "lastLoc"
 }
 
 class Item: NSObject, NSCoding {
@@ -17,15 +18,18 @@ class Item: NSObject, NSCoding {
     let minorValue: CLBeaconMinorValue
     let majorValue: CLBeaconMajorValue
     var enabled: Bool
+    var lastLoc: NSDictionary?
+    
     var beacon: CLBeacon?
     
-    init(name: String, icon: Int, uuid: UUID, majorValue: Int, minorValue: Int, enabled: Bool) {
+    init(name: String, icon: Int, uuid: UUID, majorValue: Int, minorValue: Int, enabled: Bool, lastLoc: NSDictionary?) {
         self.name = name
         self.icon = icon
         self.uuid = uuid
         self.minorValue = CLBeaconMinorValue(minorValue)
         self.majorValue = CLBeaconMajorValue(majorValue)
         self.enabled = enabled
+        self.lastLoc = nil
     }
     
     func asBeaconRegion() -> CLBeaconRegion {
@@ -57,11 +61,12 @@ class Item: NSObject, NSCoding {
             return "Far"
         }
     }
-        
+    
     // MARK: NSCoding
     required convenience init?(coder aDecoder: NSCoder) {
         guard let name = aDecoder.decodeObject(forKey: ItemConstant.nameKey) as? String,
-                let uuid = aDecoder.decodeObject(forKey: ItemConstant.uuidKey) as? UUID
+                let uuid = aDecoder.decodeObject(forKey: ItemConstant.uuidKey) as? UUID,
+                    let lastLoc = aDecoder.decodeObject(forKey: ItemConstant.lastLocKey) as? NSDictionary?
         else { return nil }
 
         self.init(
@@ -70,10 +75,9 @@ class Item: NSObject, NSCoding {
             uuid: uuid,
             majorValue: aDecoder.decodeInteger(forKey: ItemConstant.majorKey),
             minorValue: aDecoder.decodeInteger(forKey: ItemConstant.minorKey),
-            enabled: aDecoder.decodeBool(forKey: ItemConstant.enabled)
+            enabled: aDecoder.decodeBool(forKey: ItemConstant.enabled),
+            lastLoc: lastLoc
         )
-        
-        
     }
     
     func encode(with aCoder: NSCoder) {
@@ -82,9 +86,8 @@ class Item: NSObject, NSCoding {
         aCoder.encode(self.uuid, forKey: ItemConstant.uuidKey)
         aCoder.encode(Int(self.majorValue), forKey: ItemConstant.majorKey)
         aCoder.encode(Int(self.minorValue), forKey: ItemConstant.minorKey)
-        //aCoder.encode(enabled, forKey: ItemConstant.enabled)
         aCoder.encode(self.enabled, forKey: ItemConstant.enabled)
-        
+        aCoder.encode(self.lastLoc, forKey: ItemConstant.lastLocKey)
     }
 }
 

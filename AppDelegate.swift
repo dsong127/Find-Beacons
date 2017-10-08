@@ -28,9 +28,8 @@ extension AppDelegate: CLLocationManagerDelegate{
         content.title = "Forgot something?"
         content.body = region.identifier
         content.sound = .default()
-        
+
         let request = UNNotificationRequest(identifier: "doko", content: content, trigger: nil)
-        
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }

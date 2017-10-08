@@ -1,4 +1,5 @@
 import UIKit
+import MapKit
 import CoreLocation
 
 let savedItemsKey: String = "savedItems"
@@ -17,13 +18,25 @@ class BeaconListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        //saveItems()
         //This will display a message when user has added no item to track
         if items.isEmpty {
             displayEmptyData(message: "There are no item to show!", on: self)
         } else {
             beaconTableView.backgroundView = nil
         }
-        saveItems()
+        
+        /*  Need to fix:
+         *   When out of range while app in the background cell's location is not updated
+         */
+
+        for item in items {
+            if item.enabled {
+                startMonitoring(item: item)
+            } else {
+                stopMonitoring(item: item)
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -116,11 +129,9 @@ extension BeaconListViewController: detailsViewDelegate {
         } else {
             stopMonitoring(item: item)
         }
-        
         beaconTableView.reloadData()
     }
 }
-
 
 extension BeaconListViewController: CLLocationManagerDelegate{
     
@@ -131,6 +142,19 @@ extension BeaconListViewController: CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager error: \(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        guard region is CLBeaconRegion else { return }
+        if let coordinate: CLLocationCoordinate2D = locationManager.location?.coordinate {
+            for item in items {
+                if item.name == region.identifier {
+                    item.lastLoc = coordinate.propertyListRepresentation()
+                }
+            }
+        }
+        saveItems()
+        loadItems()
     }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
@@ -159,7 +183,6 @@ extension BeaconListViewController: CLLocationManagerDelegate{
 // MARK: - TableView Data Source
 
 extension BeaconListViewController: UITableViewDataSource  {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }

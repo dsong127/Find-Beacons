@@ -1,5 +1,4 @@
 import UIKit
-import Foundation
 
 extension BeaconListViewController {
     func displayEmptyData(message:String, on viewController: UIViewController) {

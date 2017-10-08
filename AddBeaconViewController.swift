@@ -1,7 +1,6 @@
 import UIKit
 import Eureka
 
-
 class AddBeaconViewController: FormViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
@@ -9,15 +8,13 @@ class AddBeaconViewController: FormViewController {
     var delegate: AddItem?
     let allIcons = Icon.allIcons
     var icon = Icon.customItem
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configForm()
     }
     
     func configForm() {
-        
         var isNameValid: Bool = false
         var isUuidValid: Bool = false
         var isMajorValid: Bool = false
@@ -75,24 +72,7 @@ class AddBeaconViewController: FormViewController {
                     isMinorValid = self.checkNotEmpty(name: minor.value ?? "")
                     self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
                 }
-            /*
-        +++ Section("ViewRow Demo")
-            <<< ViewRow<MyView>("view") { (row) in
-                row.title = "My View Title" // optional
-                }
-                .cellSetup { (cell, row) in
-                    //  Construct the view for the cell
-                    cell.view = MyView()
-                    cell.view?.backgroundColor = UIColor.orange
-                    cell.contentView.addSubview(cell.view!)
-                    
-                    //  Define the cell's height
-                    cell.height = { return CGFloat(200) }
-        }
-        
-        */
-        
-        
+
         //Set textfield delegate to self
         let rows = (form.allRows as! [TextRow])
         for row in rows {
@@ -106,8 +86,8 @@ class AddBeaconViewController: FormViewController {
         return (name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).characters.count) > 0
     }
     
-    // Use regular expression to make sure user has correct format for UUID
     func checkUUIDValid(UUID: String) -> Bool {
+        // Use regular expression to make sure user has correct format for UUID
         let uuidRegex = try! NSRegularExpression(pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", options: .caseInsensitive)
         
         let uuidString = UUID.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -115,7 +95,6 @@ class AddBeaconViewController: FormViewController {
         if uuidString.characters.count > 0 {
             return uuidRegex.numberOfMatches(in: uuidString, options: [], range: NSMakeRange(0, uuidString.characters.count)) > 0
         }
-        
         return false
     }
     
@@ -139,7 +118,7 @@ class AddBeaconViewController: FormViewController {
         let enabled = true
 
         //Create a new beacon object
-        let newItem = Item(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor, enabled: enabled)
+        let newItem = Item(name: nameString, icon: icon.rawValue, uuid: uuid, majorValue: major, minorValue: minor, enabled: enabled, lastLoc: nil)
         
         delegate?.addItem(item: newItem)
         navigationController?.popViewController(animated: true)
@@ -147,29 +126,23 @@ class AddBeaconViewController: FormViewController {
 }
 
 extension AddBeaconViewController: UITextFieldDelegate{
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    
         let majorTextField: UITextField = (form.rowBy(tag: "majorRow") as? TextRow)!.cell.textField
         let minorTextField: UITextField = (form.rowBy(tag: "minorRow") as? TextRow)!.cell.textField
         let uuidTextField: UITextField = (form.rowBy(tag: "uuidRow") as? TextRow)!.cell.textField
         
-        
         if (textField == majorTextField || textField == minorTextField) {
-            guard let text = textField.text else {
-                return true
-            }
+            guard let text = textField.text else { return true }
             let newLength = text.characters.count + string.characters.count - range.length
             return newLength <= 5
         }
         
-    
         if textField == uuidTextField {
         /*
             if range.location == 36 {
                 return false
             }
-         
+
             var strText: String? = textField.text
          
             if strText == nil {
@@ -192,10 +165,6 @@ extension AddBeaconViewController: UITextFieldDelegate{
          let newLength = text.characters.count + string.characters.count - range.length
          return newLength <= 36
          }
-
         return true
     }
- 
 }
-
-
