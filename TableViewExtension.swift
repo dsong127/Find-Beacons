@@ -1,3 +1,8 @@
+//
+//  Extension for TableView to display
+//  A message if data is empty.
+//
+
 import UIKit
 
 extension BeaconListViewController {

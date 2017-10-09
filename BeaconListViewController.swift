@@ -18,8 +18,6 @@ class BeaconListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        //saveItems()
-        //This will display a message when user has added no item to track
         if items.isEmpty {
             displayEmptyData(message: "There are no item to show!", on: self)
         } else {
@@ -27,7 +25,7 @@ class BeaconListViewController: UIViewController {
         }
         
         /*  Need to fix:
-         *   When out of range while app in the background cell's location is not updated
+         *   When out of range while app in the background cell's location is not updated until it ranges again
          */
 
         for item in items {
@@ -122,8 +120,7 @@ extension BeaconListViewController: detailsViewDelegate {
         saveItems()
         let item = items[indexPath.row]
         
-        //If item tracking is enabled start monitoring
-        //Otherwise stop
+        //Control item tracking
         if item.enabled {
             startMonitoring(item: item)
         } else {
@@ -153,6 +150,9 @@ extension BeaconListViewController: CLLocationManagerDelegate{
                 }
             }
         }
+        /*
+         *  THIS IS NOT SAVED WHEN APP RESTARTS FOR SOME REASON
+         */
         saveItems()
         loadItems()
     }

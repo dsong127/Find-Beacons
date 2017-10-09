@@ -1,3 +1,8 @@
+//
+//  Converts CLLocationCoordinate2D into dictionary
+//  for NSCoding compatibility.
+//  
+
 import UIKit
 import CoreLocation
 

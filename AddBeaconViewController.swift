@@ -7,11 +7,18 @@ class AddBeaconViewController: FormViewController {
     
     var delegate: AddItem?
     let allIcons = Icon.allIcons
-    var icon = Icon.customItem
-
+    var icon = Icon.bag
+    
+    var iconImage = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configForm()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     func configForm() {
@@ -20,7 +27,7 @@ class AddBeaconViewController: FormViewController {
         var isMajorValid: Bool = false
         var isMinorValid: Bool = false
         
-        form +++ Section()
+        form +++ Section("Beacon Info")
             <<< TextRow(){ nameRow in
                 nameRow.title = "Name"
                 nameRow.placeholder = "My Beacon"
@@ -29,7 +36,6 @@ class AddBeaconViewController: FormViewController {
 
                 }.cellUpdate{ cell, row in
                     cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
-                    //cell.textField.delegate = self
                 }.onChange{ nameRow in
                     isNameValid = self.checkNotEmpty(name: (nameRow.value ?? ""))
                     self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
@@ -72,9 +78,50 @@ class AddBeaconViewController: FormViewController {
                     isMinorValid = self.checkNotEmpty(name: minor.value ?? "")
                     self.addButton.isEnabled = (isNameValid && isUuidValid && isMajorValid && isMinorValid)
                 }
+            +++ Section("Icon"){
+                $0.header?.height = { 25 }
+            }
+            <<< ViewRow<UICollectionView>().cellSetup{ (cell, row) in
+                let layout = UICollectionViewFlowLayout()
+                let frameSize = CGRect(x: 0.0, y: 400.0, width: self.view.frame.width, height: 100.0)
+                let nib = UINib(nibName: "IconCell", bundle: nil)
+                cell.height = { return CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? 180 : 110) }
+                
+                cell.viewLeftMargin = 0
+                cell.viewRightMargin = 0
+                
+                layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                layout.scrollDirection = .horizontal
+                layout.itemSize = CGSize(width: 100, height: 100)
+                
+                cell.view = UICollectionView(frame: frameSize, collectionViewLayout: layout)
+                cell.view?.register(nib, forCellWithReuseIdentifier: "IconCell")
+                cell.view?.showsHorizontalScrollIndicator = true
+                cell.view?.backgroundColor = .white
+                
+                cell.contentView.addSubview(cell.view!)
+                
+
+                cell.view?.delegate = self
+                cell.view?.dataSource = self
+            }
+            
+            +++ Section()
+            <<< ViewRow<UIImageView>(){ row in
+                    row.tag = "imageRow"
+                }.cellSetup{ (cell, row) in
+                cell.view = self.iconImage
+                cell.contentView.addSubview(cell.view!)
+                cell.view!.contentMode = .scaleAspectFit
+                cell.view?.image = self.icon.image()
+
+                cell.height = { return CGFloat(200) }
+                cell.viewLeftMargin = 50
+                cell.viewRightMargin = 50
+        }
 
         //Set textfield delegate to self
-        let rows = (form.allRows as! [TextRow])
+        let rows = (form.allRows.filter{$0 is TextRow} as! [TextRow])
         for row in rows {
             row.cellUpdate{ cell, row in
                 row.cell.textField.delegate = self
@@ -125,6 +172,26 @@ class AddBeaconViewController: FormViewController {
     }
 }
 
+extension AddBeaconViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return allIcons.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconCell", for: indexPath) as! IconCell
+        cell.icon = allIcons[indexPath.row]
+        
+        return cell
+    }
+}
+
+extension AddBeaconViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        icon = Icon.icon(forTag: indexPath.row)
+        iconImage.image = icon.image()
+    }
+}
 extension AddBeaconViewController: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let majorTextField: UITextField = (form.rowBy(tag: "majorRow") as? TextRow)!.cell.textField

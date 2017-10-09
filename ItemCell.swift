@@ -13,10 +13,10 @@ class ItemCell: UITableViewCell {
     var item: Item? = nil {
         didSet {
             if let item = item {
-                //imgIcon.image = Icon(rawValue: item.icon)?.image()
-                //imgIcon.layer.cornerRadius = 10
-                //imgIcon.layer.masksToBounds = true
-                //lblName.font = .italicSystemFont(ofSize: 16.0)
+                imgIcon.image = Icon(rawValue: item.icon)?.image()
+                imgIcon.layer.cornerRadius = 10
+                imgIcon.layer.masksToBounds = true
+                lblName.font = .italicSystemFont(ofSize: 16.0)
                 lblName.text = item.name
                 lblLocation.text = item.locationString()
                
