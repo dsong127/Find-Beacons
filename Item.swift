@@ -29,7 +29,7 @@ class Item: NSObject, NSCoding {
         self.minorValue = CLBeaconMinorValue(minorValue)
         self.majorValue = CLBeaconMajorValue(majorValue)
         self.enabled = enabled
-        self.lastLoc = nil
+        self.lastLoc = lastLoc
     }
     
     func asBeaconRegion() -> CLBeaconRegion {
@@ -41,7 +41,7 @@ class Item: NSObject, NSCoding {
         let proximity = nameForProximity(beacon.proximity)
         let accuracy = String(format: "%.2f", beacon.accuracy)
             
-        var location = "Location: \(proximity)"
+        var location = "\(proximity)"
         
         if beacon.proximity != .unknown {
             location += " (approx. \(accuracy)m)"

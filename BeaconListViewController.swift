@@ -120,7 +120,7 @@ extension BeaconListViewController: detailsViewDelegate {
         saveItems()
         let item = items[indexPath.row]
         
-        //Control item tracking
+        //Control item ranging
         if item.enabled {
             startMonitoring(item: item)
         } else {
@@ -150,11 +150,9 @@ extension BeaconListViewController: CLLocationManagerDelegate{
                 }
             }
         }
-        /*
-         *  THIS IS NOT SAVED WHEN APP RESTARTS FOR SOME REASON
-         */
+  
         saveItems()
-        loadItems()
+        beaconTableView.reloadData()
     }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
