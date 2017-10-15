@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.statusBarStyle = .lightContent
         
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options:[.alert, .sound]) { (granted, error) in }
-
+        center.requestAuthorization(options:[.alert, .sound, .badge]) { (granted, error) in }
+        
         return true
     }
 }

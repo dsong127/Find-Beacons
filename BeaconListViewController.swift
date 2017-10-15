@@ -13,9 +13,8 @@ class BeaconListViewController: UIViewController {
     var items = [Item]()
     var index: IndexPath!
     
-    
     let locationManager = CLLocationManager()
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -28,7 +27,7 @@ class BeaconListViewController: UIViewController {
         /*  Need to fix:
          *   When out of range while app in the background cell's location is not updated until it ranges again
          */
-
+/*
         for item in items {
             if item.enabled {
                 startMonitoring(item: item)
@@ -36,17 +35,30 @@ class BeaconListViewController: UIViewController {
                 stopMonitoring(item: item)
             }
         }
+ */
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
 
         loadItems()
         setupTableView()
+        
+        // ReMEMBER TO REMOVE OBSERVER
+        /*
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView),
+                                               name: NSNotification.Name.UIApplicationDidBecomeActive , object: nil)
+ */
+    }
+    
+    @objc func refreshTableView() {
+        for item in items {
+            startMonitoring(item: item)
+        }
     }
     
     private func setupTableView() {
@@ -151,9 +163,12 @@ extension BeaconListViewController: CLLocationManagerDelegate{
                 }
             }
         }
-  
         saveItems()
+        /*
         beaconTableView.reloadData()
+        for item in items {
+            startMonitoring(item: item)
+        }*/
     }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
@@ -173,12 +188,10 @@ extension BeaconListViewController: CLLocationManagerDelegate{
             let rowsToUpdate = visibleRows.filter { indexPaths.contains($0) }
             for row in rowsToUpdate {
                 let cell = beaconTableView.cellForRow(at: row) as! ItemCell
-
                 cell.refreshLocation()
                 cell.updateStatusColor()
             }
         }
-
     }
 }
 
@@ -224,9 +237,7 @@ extension BeaconListViewController: UITableViewDataSource  {
 
 //MARK: - TableView Delegate
 extension BeaconListViewController: UITableViewDelegate{
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: indexPath, animated: true)
         
         self.index = indexPath

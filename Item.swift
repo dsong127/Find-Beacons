@@ -91,10 +91,15 @@ class Item: NSObject, NSCoding {
         aCoder.encode(self.lastLoc, forKey: ItemConstant.lastLocKey)
     }
 }
-
+/*
 func ==(item: Item, beacon: CLBeacon) -> Bool {
     return ((beacon.proximityUUID.uuidString == item.uuid.uuidString)
         && (Int(beacon.major) == Int(item.majorValue))
         && (Int(beacon.minor) == Int(item.minorValue)))
-    
+}
+*/
+func ==(item: Item, beacon: CLBeacon) -> Bool {
+    return ((beacon.proximityUUID.uuidString == item.uuid.uuidString)
+        && (Int(truncating: beacon.major) == Int(item.majorValue))
+        && (Int(truncating: beacon.minor) == (Int(item.minorValue))))
 }
