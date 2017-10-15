@@ -38,6 +38,7 @@ class Item: NSObject, NSCoding {
     
     func locationString() -> String {
         guard let beacon = beacon else { return "Cannot find beacon" }
+        
         let proximity = nameForProximity(beacon.proximity)
         let accuracy = String(format: "%.2f", beacon.accuracy)
             
@@ -52,7 +53,7 @@ class Item: NSObject, NSCoding {
     func nameForProximity(_ proximity: CLProximity) -> String {
         switch proximity {
         case .unknown:
-            return "Unknown"
+            return "Cannot find beacon"
         case .immediate:
             return "Immediate"
         case .near:

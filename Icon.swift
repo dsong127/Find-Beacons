@@ -3,10 +3,10 @@ import UIKit
 
 enum Icon: Int {
     case bag = 0
+    case wallet
+    case key
     case cat
     case dog
-    case key
-    case wallet
     
     func image() -> UIImage? {
         return UIImage(named: "\(self.name())")

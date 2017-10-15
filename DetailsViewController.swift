@@ -22,14 +22,14 @@ class DetailsViewController: FormViewController {
     func configForm() {
         
         form
-            +++ Section(){
+            +++ Section("Name"){
                 $0.header?.height = { 50 }
             }
             <<< LabelRow(){ nameRow in
                 nameRow.value = item.name
                 nameRow.tag = "nameRow"
-                }.cellUpdate{ cell, row in
-                    cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
+                }.cellSetup{ cell, row in
+                    cell.detailTextLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
             
             +++ Section("UUID"){
@@ -38,10 +38,10 @@ class DetailsViewController: FormViewController {
             <<< LabelRow(){ uuid in
                 uuid.value = item.uuid.uuidString
                 uuid.tag = "uuidRow"
-                
-                }.cellUpdate{ cell, row in
-                    cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
-                }
+                }.cellSetup{ (cell, row) in
+                    cell.detailTextLabel?.font = .italicSystemFont(ofSize: 16.0)
+                    cell.detailTextLabel?.lineBreakMode = .byWordWrapping
+            }
             
             // CHECK INPUT FOR MAJOR & MINOR
             +++ Section("Major"){
@@ -51,7 +51,7 @@ class DetailsViewController: FormViewController {
                 majorRow.value = "\(item.majorValue)"
                 majorRow.tag = "majorRow"
                 }.cellUpdate{ cell, row in
-                    cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
+                    cell.detailTextLabel?.font = .italicSystemFont(ofSize: 16.0)
             }
             
             +++ Section("Minor"){
@@ -61,7 +61,7 @@ class DetailsViewController: FormViewController {
                 minorRow.value = "\(item.minorValue)"
                 minorRow.tag = "minorRow"
                 }.cellUpdate{ cell, row in
-                    cell.textLabel?.font = .italicSystemFont(ofSize: 16.0)
+                    cell.detailTextLabel?.font = .italicSystemFont(ofSize: 16.0)
                 }
         
             +++ Section() {

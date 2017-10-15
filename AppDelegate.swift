@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        
         guard region is CLBeaconRegion else { return }
         
         let content = UNMutableNotificationContent()

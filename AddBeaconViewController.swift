@@ -105,21 +105,14 @@ class AddBeaconViewController: FormViewController {
                 cell.view?.delegate = self
                 cell.view?.dataSource = self
             }
-            
-            +++ Section()
-            <<< ViewRow<UIImageView>(){ row in
-                    row.tag = "imageRow"
-                }.cellSetup{ (cell, row) in
-                cell.view = self.iconImage
-                cell.contentView.addSubview(cell.view!)
-                cell.view!.contentMode = .scaleAspectFit
-                cell.view?.image = self.icon.image()
-
-                cell.height = { return CGFloat(200) }
-                cell.viewLeftMargin = 50
-                cell.viewRightMargin = 50
-        }
-
+        
+        // Selected icon image
+        self.view.addSubview(self.iconImage)
+        iconImage.frame = CGRect(x: 0, y: self.view.frame.height-200, width: self.view.frame.width, height: 200)
+        iconImage.contentMode = .scaleAspectFit
+        iconImage.image = self.icon.image()
+        
+        
         //Set textfield delegate to self
         let rows = (form.allRows.filter{$0 is TextRow} as! [TextRow])
         for row in rows {

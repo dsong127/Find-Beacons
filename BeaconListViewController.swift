@@ -13,6 +13,7 @@ class BeaconListViewController: UIViewController {
     var items = [Item]()
     var index: IndexPath!
     
+    
     let locationManager = CLLocationManager()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,6 +38,7 @@ class BeaconListViewController: UIViewController {
         }
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -131,7 +133,6 @@ extension BeaconListViewController: detailsViewDelegate {
 }
 
 extension BeaconListViewController: CLLocationManagerDelegate{
-    
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         print("monitoring region error: \(error.localizedDescription)")
         print(error)
@@ -172,9 +173,12 @@ extension BeaconListViewController: CLLocationManagerDelegate{
             let rowsToUpdate = visibleRows.filter { indexPaths.contains($0) }
             for row in rowsToUpdate {
                 let cell = beaconTableView.cellForRow(at: row) as! ItemCell
+
                 cell.refreshLocation()
+                cell.updateStatusColor()
             }
         }
+
     }
 }
 
@@ -188,14 +192,11 @@ extension BeaconListViewController: UITableViewDataSource  {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
         cell.item = items[indexPath.row]
-  
         
-        if cell.item?.enabled == false {
-            cell.disableCellColor()
-        } else {
-            cell.enableCellColor()
-        }
-    
+        let enabled = cell.item?.enabled
+  
+        cell.updateCellColor(enabled: enabled!)
+        
         return cell
     }
     
