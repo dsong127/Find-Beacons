@@ -11,9 +11,6 @@ class BeaconListViewController: UIViewController {
     var items = [Item]()
     var index: IndexPath!
     
-    let uuidStub = UUID(uuidString: "FDA50693-A4E2-4FB1-AFCF-C6EB07647825")
-    let coordStub: [String:CLLocationDegrees] = ["lat": 45.510317, "long": -122.716084]
-
     let locationManager = CLLocationManager()
 
     override func viewWillAppear(_ animated: Bool) {
@@ -23,7 +20,6 @@ class BeaconListViewController: UIViewController {
             displayEmptyData(message: "There are no item to show!", on: self)
             return
         }
-        
         beaconTableView.backgroundView = nil
     }
     
@@ -51,11 +47,6 @@ class BeaconListViewController: UIViewController {
             items.append(item)
             startMonitoring(item: item)
         }
-        
-        let item2 = Item(name: "Wallet" , icon: 1, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: true, lastLoc: coordStub as
-            NSDictionary)
-        
-        items.append(item2)
     }
     
     func saveItems() {
