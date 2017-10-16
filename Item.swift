@@ -38,7 +38,7 @@ class Item: NSObject, NSCoding {
     
     func locationString() -> String {
         guard let beacon = beacon else { return "Cannot find beacon" }
-        
+    
         let proximity = nameForProximity(beacon.proximity)
         let accuracy = String(format: "%.2f", beacon.accuracy)
             
@@ -49,7 +49,7 @@ class Item: NSObject, NSCoding {
         }
         return location
     }
-        
+            
     func nameForProximity(_ proximity: CLProximity) -> String {
         switch proximity {
         case .unknown:
@@ -91,13 +91,7 @@ class Item: NSObject, NSCoding {
         aCoder.encode(self.lastLoc, forKey: ItemConstant.lastLocKey)
     }
 }
-/*
-func ==(item: Item, beacon: CLBeacon) -> Bool {
-    return ((beacon.proximityUUID.uuidString == item.uuid.uuidString)
-        && (Int(beacon.major) == Int(item.majorValue))
-        && (Int(beacon.minor) == Int(item.minorValue)))
-}
-*/
+
 func ==(item: Item, beacon: CLBeacon) -> Bool {
     return ((beacon.proximityUUID.uuidString == item.uuid.uuidString)
         && (Int(truncating: beacon.major) == Int(item.majorValue))

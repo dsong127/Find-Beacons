@@ -1,3 +1,7 @@
+//
+//  Icon cell for adding a new item
+//
+
 import UIKit
 
 class IconCell: UICollectionViewCell {

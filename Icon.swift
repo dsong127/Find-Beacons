@@ -1,6 +1,5 @@
 import UIKit
 
-
 enum Icon: Int {
     case bag = 0
     case wallet

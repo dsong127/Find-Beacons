@@ -23,10 +23,9 @@ class ItemCell: UITableViewCell {
                 imgIcon.image = Icon(rawValue: item.icon)?.image()
                 imgIcon.layer.cornerRadius = 10
                 imgIcon.layer.masksToBounds = true
-                lblName.font = .italicSystemFont(ofSize: 16.0)
                 lblName.text = item.name
+                lblLocation.font = .italicSystemFont(ofSize: 16.0)
                 lblLocation.text = item.locationString()
-               
             } else {
                 imgIcon.image = nil
                 lblName.text = ""
@@ -77,7 +76,11 @@ class ItemCell: UITableViewCell {
     
     func refreshLocation() {
         lblLocation.text = item?.locationString() ?? ""
-
+        
+        if item?.enabled == false {
+            lblLocation.text = "Off"
+        }
+        
         if lblLocation.text == "Cannot find beacon" {
             beaconStatus = .unknown
         } else {
