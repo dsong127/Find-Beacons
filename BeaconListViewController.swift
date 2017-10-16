@@ -11,20 +11,20 @@ class BeaconListViewController: UIViewController {
     var items = [Item]()
     var index: IndexPath!
     
-    let uuidStub = UUID(uuidString: "12345678-1234-1234-1234-123456789012")
+    let uuidStub = UUID(uuidString: "FDA50693-A4E2-4FB1-AFCF-C6EB07647825")
     let coordStub: [String:CLLocationDegrees] = ["lat": 45.510317, "long": -122.716084]
-    
-    
+
     let locationManager = CLLocationManager()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if items.isEmpty {
+        guard !items.isEmpty else {
             displayEmptyData(message: "There are no item to show!", on: self)
-        } else {
-            beaconTableView.backgroundView = nil
+            return
         }
+        
+        beaconTableView.backgroundView = nil
     }
     
     override func viewDidLoad() {
@@ -35,9 +35,6 @@ class BeaconListViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
 
         loadItems()
-       
-        
-        
         setupTableView()
     }
     
@@ -48,30 +45,17 @@ class BeaconListViewController: UIViewController {
     
     func loadItems() {
         guard let savedItems = UserDefaults.standard.array(forKey: savedItemsKey) as? [Data] else { return }
-        /*
+        
         for itemData in savedItems {
             guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue }
             items.append(item)
             startMonitoring(item: item)
         }
-        */
         
-        let item2 = Item(name: "Wallet" , icon: 1, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: true, lastLoc: coordStub as NSDictionary)
-        let item3 = Item(name: "House key", icon: 2, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: true, lastLoc: nil)
-        let item4 = Item(name: "Work key" , icon: 2, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: true, lastLoc: nil)
-        let item1 = Item(name: "Carry on bag", icon: 0, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: false, lastLoc: nil)
-        let item5 = Item(name: "Izzy", icon: 3, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: true, lastLoc: nil)
+        let item2 = Item(name: "Wallet" , icon: 1, uuid: uuidStub!, majorValue: 12345, minorValue: 12345, enabled: true, lastLoc: coordStub as
+            NSDictionary)
         
         items.append(item2)
-        items.append(item3)
-        items.append(item4)
-        items.append(item5)
-        items.append(item1)
-        
-        for item in items {
-            startMonitoring(item: item)
-        }
-        
     }
     
     func saveItems() {
@@ -162,11 +146,6 @@ extension BeaconListViewController: CLLocationManagerDelegate{
             }
         }
         saveItems()
-        /*
-        beaconTableView.reloadData()
-        for item in items {
-            startMonitoring(item: item)
-        }*/
     }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
@@ -187,7 +166,6 @@ extension BeaconListViewController: CLLocationManagerDelegate{
             for row in rowsToUpdate {
                 let cell = beaconTableView.cellForRow(at: row) as! ItemCell
                     cell.refreshLocation()
-                    cell.updateStatusColor()
             }
         }
     }

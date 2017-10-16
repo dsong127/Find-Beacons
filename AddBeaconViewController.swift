@@ -13,14 +13,10 @@ class AddBeaconViewController: FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        hideKeyboardWhenTapped()
         configForm()
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
+
     func configForm() {
         var isNameValid: Bool = false
         var isUuidValid: Bool = false
@@ -100,7 +96,6 @@ class AddBeaconViewController: FormViewController {
                 cell.view?.backgroundColor = .white
                 
                 cell.contentView.addSubview(cell.view!)
-                
 
                 cell.view?.delegate = self
                 cell.view?.dataSource = self

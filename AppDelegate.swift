@@ -30,7 +30,7 @@ extension AppDelegate: CLLocationManagerDelegate{
         content.body = region.identifier
         content.sound = .default()
 
-        let request = UNNotificationRequest(identifier: "doko", content: content, trigger: nil)
+        let request = UNNotificationRequest(identifier: "Find Beacons", content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }

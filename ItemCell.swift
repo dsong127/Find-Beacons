@@ -59,7 +59,6 @@ class ItemCell: UITableViewCell {
             lblLocation.alpha = 0.5
             beaconStatus = .off
         }
-        
         updateStatusColor()
     }
 
@@ -77,14 +76,16 @@ class ItemCell: UITableViewCell {
     func refreshLocation() {
         lblLocation.text = item?.locationString() ?? ""
         
-        if item?.enabled == false {
-            lblLocation.text = "Off"
-        }
-        
         if lblLocation.text == "Cannot find beacon" {
             beaconStatus = .unknown
         } else {
             beaconStatus = .on
         }
+        
+        if item?.enabled == false {
+            lblLocation.text = "Off"
+            beaconStatus = .off
+        }
+        updateStatusColor()
     }
 }
