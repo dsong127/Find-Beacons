@@ -45,7 +45,9 @@ class BeaconListViewController: UIViewController {
         for itemData in savedItems {
             guard let item = NSKeyedUnarchiver.unarchiveObject(with: itemData) as? Item else { continue }
             items.append(item)
-            startMonitoring(item: item)
+            if item.enabled {
+                startMonitoring(item: item)
+            }
         }
     }
     
@@ -177,7 +179,6 @@ extension BeaconListViewController: UITableViewDataSource  {
   
         cell.refreshLocation()
         cell.updateCellColor(enabled: enabled!)
-        
         
         return cell
     }
