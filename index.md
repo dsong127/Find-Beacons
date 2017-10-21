@@ -1,16 +1,12 @@
-# Find Beacons
+##Find beacons
+
+![](/images/img1.PNG)
 
 
 
-# Features
-
-![demo1](/images/img1.PNG)
+![](/images/img2.PNG)
 
 
 
-![demo2](/images/img2.PNG)
-
-
-
-![demo3](/images/img3.PNG)
+![](/images/img3.PNG)
 
