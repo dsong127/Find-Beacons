@@ -15,7 +15,7 @@
 
 ## Credit
 
-Special thanks to [Freepik](http://www.freepik.com), [Flaticon](http://www.flaticon.com), and [Entypo](http://www.entypo.com) for the icons
+Special thanks to [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com) licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0) for icons used in the app.
 
 
 [1]: mailto:dan.songh@gmail.com
