@@ -79,13 +79,11 @@ class AddBeaconViewController: FormViewController {
             }
             <<< ViewRow<UICollectionView>().cellSetup{ (cell, row) in
                 let layout = UICollectionViewFlowLayout()
-                let frameSize = CGRect(x: 0.0, y: 400.0, width: self.view.frame.width, height: 100.0)
+                let frameSize = CGRect(x: 0.0, y: 400.0, width: self.view.frame.width, height: 100)
                 let nib = UINib(nibName: "IconCell", bundle: nil)
                 cell.height = { return CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? 180 : 110) }
                 
-                cell.viewLeftMargin = 0
-                cell.viewRightMargin = 0
-                
+             
                 layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 layout.scrollDirection = .horizontal
                 layout.itemSize = CGSize(width: 100, height: 100)
@@ -96,18 +94,20 @@ class AddBeaconViewController: FormViewController {
                 cell.view?.backgroundColor = .white
                 
                 cell.contentView.addSubview(cell.view!)
-
+                
                 cell.view?.delegate = self
                 cell.view?.dataSource = self
             }
+            <<< ViewRow<UIImageView>().cellSetup{ (cell, row) in
+                cell.height = { return CGFloat(150.0) }
+                
+                cell.view = self.iconImage
+                cell.contentView.addSubview(cell.view!)
+                cell.view!.contentMode = .scaleAspectFit
+                cell.view?.image = self.icon.image()
+            }
         
-        // Selected icon image
-        self.view.addSubview(self.iconImage)
-        iconImage.frame = CGRect(x: 0, y: self.view.frame.height-200, width: self.view.frame.width, height: 200)
-        iconImage.contentMode = .scaleAspectFit
-        iconImage.image = self.icon.image()
-        
-        
+                
         //Set textfield delegate to self
         let rows = (form.allRows.filter{$0 is TextRow} as! [TextRow])
         for row in rows {
