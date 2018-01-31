@@ -29,7 +29,6 @@ extension CLLocationCoordinate2D: PropertyListReadable {
 //  A message if data is empty.
 //
 
-
 extension BeaconListViewController {
     func displayEmptyData(message:String, on viewController: UIViewController) {
         let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: viewController.view.bounds.size.width, height: viewController.view.bounds.size.height))
@@ -48,7 +47,6 @@ extension BeaconListViewController {
 //
 //  Dismiss keyboard when tapped
 //
-
 
 extension UIViewController {
     func hideKeyboardWhenTapped() {

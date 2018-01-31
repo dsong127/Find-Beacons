@@ -172,7 +172,7 @@ extension BeaconListViewController: UITableViewDataSource  {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Beacon", for: indexPath) as! ItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath) as! ItemCell
         cell.item = items[indexPath.row]
         
         let enabled = cell.item?.enabled

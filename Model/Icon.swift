@@ -37,8 +37,6 @@ enum Icon: Int {
             all += [icon]
             index += 1
         }
-        
         return all.sorted { $0.rawValue < $1.rawValue }
     }()
 }
-

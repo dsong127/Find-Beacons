@@ -83,7 +83,6 @@ class AddBeaconViewController: FormViewController {
                 let nib = UINib(nibName: "IconCell", bundle: nil)
                 cell.height = { return CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? 180 : 110) }
                 
-             
                 layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 layout.scrollDirection = .horizontal
                 layout.itemSize = CGSize(width: 100, height: 100)
@@ -193,27 +192,23 @@ extension AddBeaconViewController: UITextFieldDelegate{
         }
         
         if textField == uuidTextField {
-        /*
-            if range.location == 36 {
-                return false
-            }
-
             var strText: String? = textField.text
          
             if strText == nil {
                 strText = ""
             }
          
-            // NEED TO DELETE - IF USER GOING BACKWARDS
             strText = strText?.replacingOccurrences(of: "-", with:"")
             if strText!.characters.count > 1  && string != ""
-                && (strText!.characters.count == 8 || strText!.characters.count == 12
-                    || strText!.characters.count == 16 || strText!.characters.count == 20
+                && (strText!.characters.count == 8
+                    || strText!.characters.count == 12
+                    || strText!.characters.count == 16
+                    || strText!.characters.count == 20
                     || strText!.characters.count == 32) {
          
                 textField.text = "\(textField.text!)-\(string)"
                 return false
-            }*/
+            }
  
          // Limit to 36 characters, including the hyphens
          guard let text = textField.text else { return true }

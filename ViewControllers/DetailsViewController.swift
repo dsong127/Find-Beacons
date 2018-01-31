@@ -8,7 +8,6 @@ class DetailsViewController: FormViewController {
     var item: Item!
     var delegate: detailsViewDelegate?
     var index: IndexPath!
-
     
     var enabledInfo: Bool = false
     var didChange: Bool = false
