@@ -1,6 +1,6 @@
 ## Find Beacons
 
-This app is for monitoring iBeacons. It is freely available on the App Store. Compatible with iOS 9.0 or higher.
+This app is for monitoring iBeacons. ~~It is freely available on the App Store.~~ Compatible with iOS 9.0 or higher.
 
 
 ## Overview
