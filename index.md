@@ -18,9 +18,9 @@
 Special thanks to [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com) licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0) for icons used in the app.
 
 
-[1]: mailto:dan.songh@gmail.com
-[2]: https://linkedin.com/in/daniel-song-0aa53654
-[3]: https://github.com/danielsongh
+[1]: mailto:dsong127@gmail.com
+[2]: https://www.linkedin.com/in/danielsong12/
+[3]: https://github.com/dsong127
 
 [1.1]: Images/mail.png
 [1.2]: Images/linkedin.png
